@@ -6,7 +6,7 @@ module.exports = {
   database: 'gympoint',
   define: {
     timestamps: true,
-    underscord: true,
+    underscored: true,
     underscoredAll: true,
   },
 };
