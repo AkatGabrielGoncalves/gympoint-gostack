@@ -2,15 +2,24 @@ import { Router } from 'express';
 import UserController from './app/controllers/UserController';
 import StudentController from './app/controllers/StudentController';
 import SessionController from './app/controllers/SessionController';
+import PlanController from './app/controllers/PlanController';
+import EnrollmentController from './app/controllers/EnrollmentController';
 
 import authMiddle from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.post('/users', authMiddle, UserController.store);
-routes.post('/students', authMiddle, StudentController.store);
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddle);
 routes.put('/students', StudentController.update);
+routes.post('/students', StudentController.store);
+
+routes.post('/users', UserController.store);
+
+routes.get('/plans', PlanController.index);
+routes.post('/plans', PlanController.store);
+routes.put('/plans/:id', PlanController.update);
+routes.delete('/plans/:id', PlanController.delete);
+
 export default routes;
