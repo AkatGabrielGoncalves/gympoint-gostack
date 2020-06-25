@@ -1,11 +1,22 @@
 import { parseISO, addMonths, isAfter } from 'date-fns';
 import { Op } from 'sequelize';
+import * as Yup from 'yup';
 import Enrollment from '../models/Enrollment';
 import Student from '../models/Student';
 import Plan from '../models/Plan';
 
 class EnrollmentController {
   async store(req, res) {
+    const schema = Yup.object.shape({
+      email: Yup.string().required(),
+      plan_id: Yup.number().required(),
+      start_date: Yup.date().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fail' });
+    }
+
     const { plan_id, start_date } = await req.body;
 
     const studentId = await Student.findByPk(req.params.studentId);
